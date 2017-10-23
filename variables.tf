@@ -3,14 +3,14 @@ variable "region" {
     description = "The AWS region to deploy into (e.g. us-east-1)"
 }
 
-variable "api_name" {
+variable "api_gateway_id" {
     type = "string"
-    description = "Name of the API"
+    description = "ID of the API Gateway, e.g. f6wayvdtd1"
 }
 
-variable "api_description" {
+variable "api_gateway_root_resource_id" {
     type = "string"
-    description = "Short description about the API"
+    description = "ID of the API Gateway's root resource, e.g. rx3pwr22hf"
 }
 
 variable "api_root_path" {

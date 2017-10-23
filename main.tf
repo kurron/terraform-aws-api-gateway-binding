@@ -7,25 +7,20 @@ provider "aws" {
     region     = "${var.region}"
 }
 
-resource "aws_api_gateway_rest_api" "rest_api" {
-    name        = "${var.api_name}"
-    description = "${var.api_description}"
-}
-
 resource "aws_api_gateway_resource" "parent_resource" {
-    rest_api_id = "${aws_api_gateway_rest_api.rest_api.id}"
-    parent_id   = "${aws_api_gateway_rest_api.rest_api.root_resource_id}"
+    rest_api_id = "${var.api_gateway_id}"
+    parent_id   = "${var.api_gateway_root_resource_id}"
     path_part   = "${var.api_root_path}"
 }
 
 resource "aws_api_gateway_resource" "child_resource" {
-    rest_api_id = "${aws_api_gateway_rest_api.rest_api.id}"
+    rest_api_id = "${var.api_gateway_id}"
     parent_id   = "${aws_api_gateway_resource.parent_resource.id}"
     path_part   = "{proxy+}"
 }
 
 resource "aws_api_gateway_method" "parent_method" {
-    rest_api_id        = "${aws_api_gateway_rest_api.rest_api.id}"
+    rest_api_id        = "${var.api_gateway_id}"
     resource_id        = "${aws_api_gateway_resource.parent_resource.id}"
     http_method        = "ANY"
     authorization      = "NONE"
@@ -37,7 +32,7 @@ resource "aws_api_gateway_method" "parent_method" {
 }
 
 resource "aws_api_gateway_method" "child_method" {
-    rest_api_id        = "${aws_api_gateway_rest_api.rest_api.id}"
+    rest_api_id        = "${var.api_gateway_id}"
     resource_id        = "${aws_api_gateway_resource.child_resource.id}"
     http_method        = "ANY"
     authorization      = "NONE"
@@ -51,7 +46,7 @@ resource "aws_api_gateway_method" "child_method" {
 resource "aws_api_gateway_integration" "parent_integration" {
     depends_on = ["aws_api_gateway_method.parent_method"]
 
-    rest_api_id             = "${aws_api_gateway_rest_api.rest_api.id}"
+    rest_api_id             = "${var.api_gateway_id}"
     resource_id             = "${aws_api_gateway_resource.parent_resource.id}"
     http_method             = "${aws_api_gateway_method.parent_method.http_method}"
     integration_http_method = "ANY"
@@ -68,7 +63,7 @@ resource "aws_api_gateway_integration" "parent_integration" {
 resource "aws_api_gateway_integration" "child_integration" {
     depends_on = ["aws_api_gateway_method.child_method"]
 
-    rest_api_id             = "${aws_api_gateway_rest_api.rest_api.id}"
+    rest_api_id             = "${var.api_gateway_id}"
     resource_id             = "${aws_api_gateway_resource.child_resource.id}"
     http_method             = "${aws_api_gateway_method.child_method.http_method}"
     integration_http_method = "ANY"
@@ -85,7 +80,7 @@ resource "aws_api_gateway_integration" "child_integration" {
 resource "aws_api_gateway_deployment" "deployment" {
     depends_on = ["aws_api_gateway_integration.parent_integration","aws_api_gateway_integration.child_integration"]
 
-    rest_api_id       = "${aws_api_gateway_rest_api.rest_api.id}"
+    rest_api_id       = "${var.api_gateway_id}"
     stage_name        = "${var.stage_name}"
     description       = "${var.deployment_description}"
     stage_description = "${var.stage_description}"
