@@ -25,3 +25,7 @@ module "api_gateway_binding" {
     stage_description            = "APIs still under development"
     deployment_description       = "Initial cut of the API"
 }
+
+output "deployment_stage_name" {
+    value = "${module.api_gateway_binding.deployment_stage_name}"
+}
