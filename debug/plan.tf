@@ -20,10 +20,6 @@ module "api_gateway_binding" {
     api_gateway_root_resource_id = "${data.terraform_remote_state.api_gateway.api_gateway_root_resource_id}"
     api_root_path                = "api"
     api_key_required             = "false"
-    target_url                   = "http://httpbin.org"
-    stage_name                   = "development"
-    stage_description            = "APIs still under development"
-    deployment_description       = "Initial cut of the API"
 }
 
 output "parent_resource_id" {
