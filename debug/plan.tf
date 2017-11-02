@@ -26,6 +26,18 @@ module "api_gateway_binding" {
     deployment_description       = "Initial cut of the API"
 }
 
-output "deployment_stage_name" {
-    value = "${module.api_gateway_binding.deployment_stage_name}"
+output "parent_resource_id" {
+    value = "${module.api_gateway_binding.parent_resource_id}"
+}
+
+output "child_resource_id" {
+    value = "${module.api_gateway_binding.child_resource_id}"
+}
+
+output "parent_method_http_method" {
+    value = "${module.api_gateway_binding.parent_method_http_method}"
+}
+
+output "child_method_http_method" {
+    value = "${module.api_gateway_binding.child_method_http_method}"
 }
