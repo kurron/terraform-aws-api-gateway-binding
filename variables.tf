@@ -18,7 +18,12 @@ variable "api_root_path" {
     description = "Base path of the API, e.g. api"
 }
 
-variable "api_key_required" {
+variable "root_api_key_required" {
     type = "string"
-    description = "If true, then an API key must be sent with each request, e.g. true"
+    description = "If true, then an API key must be sent with each request when accessing the / resource, e.g. true"
+}
+
+variable "child_api_key_required" {
+    type = "string"
+    description = "If true, then an API key must be sent with each request when accessing the /* resource, e.g. true"
 }

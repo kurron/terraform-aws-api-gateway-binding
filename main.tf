@@ -1,5 +1,5 @@
 terraform {
-    required_version = ">= 0.10.7"
+    required_version = ">= 0.11"
     backend "s3" {}
 }
 
@@ -24,7 +24,7 @@ resource "aws_api_gateway_method" "parent_method" {
     resource_id        = "${aws_api_gateway_resource.parent_resource.id}"
     http_method        = "ANY"
     authorization      = "NONE"
-    api_key_required   = "${var.api_key_required}"
+    api_key_required   = "${var.root_api_key_required}"
     request_parameters = {
         "method.request.header.host" = true,
         "method.request.path.proxy"  = true
@@ -36,7 +36,7 @@ resource "aws_api_gateway_method" "child_method" {
     resource_id        = "${aws_api_gateway_resource.child_resource.id}"
     http_method        = "ANY"
     authorization      = "NONE"
-    api_key_required   = "${var.api_key_required}"
+    api_key_required   = "${var.child_api_key_required}"
     request_parameters = {
         "method.request.header.host" = true,
         "method.request.path.proxy"  = true

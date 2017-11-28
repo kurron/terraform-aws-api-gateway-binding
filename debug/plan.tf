@@ -1,5 +1,5 @@
 terraform {
-    required_version = ">= 0.10.7"
+    required_version = ">= 0.11"
     backend "s3" {}
 }
 
@@ -19,7 +19,8 @@ module "api_gateway_binding" {
     api_gateway_id               = "${data.terraform_remote_state.api_gateway.api_gateway_id}"
     api_gateway_root_resource_id = "${data.terraform_remote_state.api_gateway.api_gateway_root_resource_id}"
     api_root_path                = "api"
-    api_key_required             = "false"
+    root_api_key_required        = "false"
+    child_api_key_required       = "true"
 }
 
 output "parent_resource_id" {
