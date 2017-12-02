@@ -20,7 +20,7 @@ module "api_gateway_binding" {
     api_gateway_root_resource_id = "${data.terraform_remote_state.api_gateway.api_gateway_root_resource_id}"
     api_root_path                = "api"
     root_api_key_required        = "false"
-    child_api_key_required       = "true"
+    child_api_key_required       = "false"
 }
 
 output "parent_resource_id" {
